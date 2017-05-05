@@ -29,7 +29,7 @@ BOOL CUsbHid::OpenUSBDevice(UINT vid, UINT pid)
     }
     else
     {
-      hid_set_nonblocking(hidDevice, TRUE);
+      hid_set_nonblocking(hidDevice, true);
     }
 
     return (hidDevice != NULL);
@@ -50,7 +50,7 @@ BOOL CUsbHid::WriteUSBDevice(CHAR *buffer, INT bufflen)
 
     if(hidDevice == NULL || buffer == NULL || bufflen == 0)
     {
-        return FALSE;
+        return false;
     }
 
     BytesWritten = hid_write(hidDevice, (const unsigned char *)buffer, bufflen);

@@ -5,4 +5,4 @@
 #include "stdafx.h"
 
 QTime Timer::timer;
-bool Timer::initialized = FALSE;
+bool Timer::initialized = false;

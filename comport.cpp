@@ -181,7 +181,7 @@ bool CComPort::GetComPortOpenStatus(void)
   {
     return serialPort->IsOpen();
   }
-  return FALSE;
+  return false;
 }
 
 /************End of file******************************************************/

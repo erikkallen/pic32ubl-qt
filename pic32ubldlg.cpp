@@ -113,7 +113,7 @@ void CPIC32UBLDlg::OnBnClickedButtonConnect()
     UINT pid;
     ULONG ip;
     USHORT skt;
-//    UpdateData(TRUE);
+//    UpdateData(true);
 
     if(ConnectionEstablished)
     {
@@ -134,11 +134,11 @@ void CPIC32UBLDlg::OnBnClickedButtonConnect()
         // Print console.
         PrintKonsole("Device disconnected");
 
-        EnableAllButtons(FALSE);
+        EnableAllButtons(false);
 
 
         ui->ctrlButtonConnectDevice->setText("Connect");
-        ui->ctrlButtonConnectDevice->setEnabled(TRUE);
+        ui->ctrlButtonConnectDevice->setEnabled(true);
     }
     else
     {
@@ -151,7 +151,7 @@ void CPIC32UBLDlg::OnBnClickedButtonConnect()
         // Read ip address;
         ip = SWAP(ip_value);
         skt = (USHORT)valEditBoxSocket;
-//        UpdateData(FALSE);
+//        UpdateData(false);
 
         if(mBootLoader.GetPortOpenStatus(PortSelected))
         {
@@ -220,22 +220,22 @@ void CPIC32UBLDlg::ExtraInitialization()
 
     // Mask all buttons, except for "Connect Device"
     EnableAllButtons(false);
-    ui->ctrlButtonConnectDevice->setEnabled(TRUE);
+    ui->ctrlButtonConnectDevice->setEnabled(true);
 
     // Mark this flag as false.
     ConnectionEstablished = false;
 
     // Select communication "Com Port" by default.
-    ui->ctrlCheckBoxComEnable->setChecked(TRUE);
+    ui->ctrlCheckBoxComEnable->setChecked(true);
     PortSelected = COM;
     // Diasble serial port selection and baud rate selection.
-    ui->ctrlComboBoxBaudRate->setEnabled(TRUE);
-    ui->ctrlComboBoxComPort->setEnabled(TRUE);
+    ui->ctrlComboBoxBaudRate->setEnabled(true);
+    ui->ctrlComboBoxComPort->setEnabled(true);
     // Enable USB VID and PID edit boxes.
-    ui->ctrlComboBoxVIDPID->setEnabled(FALSE);
+    ui->ctrlComboBoxVIDPID->setEnabled(false);
     // Enable IP Address and Socket
-    ui->ctrlEditBoxIPaddress->setEnabled(FALSE);
-    ui->ctrlEditBoxSocketaddress->setEnabled(FALSE);
+    ui->ctrlEditBoxIPaddress->setEnabled(false);
+    ui->ctrlEditBoxSocketaddress->setEnabled(false);
 
     // Set default IP address to 192.168.1.11
     ip_value = inet_addr("192.168.1.11");
@@ -263,7 +263,7 @@ void CPIC32UBLDlg::ExtraInitialization()
       }
       hid_free_enumeration(deviceInfosLinkedList);
     }
-//    UpdateData(FALSE);
+//    UpdateData(false);
 
 }
 
@@ -332,8 +332,8 @@ void CPIC32UBLDlg::OnBnClickedButtonLoadhex()
     {
         PrintKonsole("Hex file loaded successfully");
         // Enable Program button
-        ui->ctrlButtonProgram->setEnabled(TRUE);
-        ui->ctrlButtonEraseProgVerify->setEnabled(TRUE);
+        ui->ctrlButtonProgram->setEnabled(true);
+        ui->ctrlButtonEraseProgVerify->setEnabled(true);
     }
     else
     {
@@ -373,19 +373,19 @@ void CPIC32UBLDlg::OnReceiveResponse(unsigned char cmd, unsigned char *RxDataPtr
         string.sprintf("Bootloader Firmware Version: %d.%d", MajorVer, MinorVer);
         PrintKonsole(string);
         // Enable only load hex, Disconnect and erase buttons for next operation.
-        ui->ctrlButtonLoadHex->setEnabled(TRUE);
-        ui->ctrlButtonErase->setEnabled(TRUE);
+        ui->ctrlButtonLoadHex->setEnabled(true);
+        ui->ctrlButtonErase->setEnabled(true);
         // Change the connect button to disconnect.
         ConnectionEstablished = true;
         ui->ctrlButtonConnectDevice->setText("Disconnect");
         // Disable baud rate and com port combo boxes.
-        ui->ctrlComboBoxBaudRate->setEnabled(FALSE);
-        ui->ctrlComboBoxComPort->setEnabled(FALSE);
+        ui->ctrlComboBoxBaudRate->setEnabled(false);
+        ui->ctrlComboBoxComPort->setEnabled(false);
         // Disable USB VID and PID boxes.
-        ui->ctrlComboBoxVIDPID->setEnabled(FALSE);
+        ui->ctrlComboBoxVIDPID->setEnabled(false);
 
         // Also enable bootloader version info.
-        ui->ctrlButtonBootloaderVer->setEnabled(TRUE);
+        ui->ctrlButtonBootloaderVer->setEnabled(true);
         break;
 
     case ERASE_FLASH:
@@ -403,8 +403,8 @@ void CPIC32UBLDlg::OnReceiveResponse(unsigned char cmd, unsigned char *RxDataPtr
         PrintKonsole("Programming completed");
         // Restore button status to allow further operations.
         RestoreButtonStatus();
-        ui->ctrlButtonVerify->setEnabled(TRUE);
-        ui->ctrlButtonRunApplication->setEnabled(TRUE);
+        ui->ctrlButtonVerify->setEnabled(true);
+        ui->ctrlButtonRunApplication->setEnabled(true);
 
         if(EraseProgVer)// Operation Erase->Program->Verify
         {
@@ -428,8 +428,8 @@ void CPIC32UBLDlg::OnReceiveResponse(unsigned char cmd, unsigned char *RxDataPtr
         EraseProgVer = false;
         // Restore button status to allow further operations.
         RestoreButtonStatus();
-        ui->ctrlButtonVerify->setEnabled(TRUE);
-        ui->ctrlButtonRunApplication->setEnabled(TRUE);
+        ui->ctrlButtonVerify->setEnabled(true);
+        ui->ctrlButtonRunApplication->setEnabled(true);
         break;
     }
 
@@ -594,14 +594,14 @@ void CPIC32UBLDlg::ButtonStatus(unsigned int oprn)
     else
     {
         // Restore
-        (status & 0x01)? ui->ctrlButtonProgram->setEnabled(TRUE): ui->ctrlButtonProgram->setEnabled(FALSE);
-        (status & 0x02)? ui->ctrlButtonLoadHex->setEnabled(TRUE): ui->ctrlButtonLoadHex->setEnabled(FALSE);
-        (status & 0x04)? ui->ctrlButtonErase->setEnabled(TRUE): ui->ctrlButtonErase->setEnabled(FALSE);
-        (status & 0x08)? ui->ctrlButtonVerify->setEnabled(TRUE): ui->ctrlButtonVerify->setEnabled(FALSE);
-        (status & 0x10)? ui->ctrlButtonRunApplication->setEnabled(TRUE): ui->ctrlButtonRunApplication->setEnabled(FALSE);
-        (status & 0x20)? ui->ctrlButtonConnectDevice->setEnabled(TRUE): ui->ctrlButtonConnectDevice->setEnabled(FALSE);
-        (status & 0x40)? ui->ctrlButtonEraseProgVerify->setEnabled(TRUE): ui->ctrlButtonEraseProgVerify->setEnabled(FALSE);
-        (status & 0x80)? ui->ctrlButtonBootloaderVer->setEnabled(TRUE): ui->ctrlButtonBootloaderVer->setEnabled(FALSE);
+        (status & 0x01)? ui->ctrlButtonProgram->setEnabled(true): ui->ctrlButtonProgram->setEnabled(false);
+        (status & 0x02)? ui->ctrlButtonLoadHex->setEnabled(true): ui->ctrlButtonLoadHex->setEnabled(false);
+        (status & 0x04)? ui->ctrlButtonErase->setEnabled(true): ui->ctrlButtonErase->setEnabled(false);
+        (status & 0x08)? ui->ctrlButtonVerify->setEnabled(true): ui->ctrlButtonVerify->setEnabled(false);
+        (status & 0x10)? ui->ctrlButtonRunApplication->setEnabled(true): ui->ctrlButtonRunApplication->setEnabled(false);
+        (status & 0x20)? ui->ctrlButtonConnectDevice->setEnabled(true): ui->ctrlButtonConnectDevice->setEnabled(false);
+        (status & 0x40)? ui->ctrlButtonEraseProgVerify->setEnabled(true): ui->ctrlButtonEraseProgVerify->setEnabled(false);
+        (status & 0x80)? ui->ctrlButtonBootloaderVer->setEnabled(true): ui->ctrlButtonBootloaderVer->setEnabled(false);
     }
 
 
@@ -616,23 +616,23 @@ void CPIC32UBLDlg::ButtonStatus(unsigned int oprn)
 void CPIC32UBLDlg::OnBnClickedCheckComEnable()
 {
     // TODO: Add your control notification handler code here
-//    UpdateData(TRUE);
-    ui->ctrlCheckBoxComEnable->setChecked(TRUE);
-    ui->ctrlCheckBoxUSBEnable->setChecked(FALSE);
-    ui->ctrlCheckBoxEthEnable->setChecked(FALSE);
+//    UpdateData(true);
+    ui->ctrlCheckBoxComEnable->setChecked(true);
+    ui->ctrlCheckBoxUSBEnable->setChecked(false);
+    ui->ctrlCheckBoxEthEnable->setChecked(false);
     PortSelected = COM;
 
     // Enable serial port selection and baud rate selection.
-    ui->ctrlComboBoxBaudRate->setEnabled(TRUE);
-    ui->ctrlComboBoxComPort->setEnabled(TRUE);
+    ui->ctrlComboBoxBaudRate->setEnabled(true);
+    ui->ctrlComboBoxComPort->setEnabled(true);
     // Disable USB VID and PID edit boxes.
-    ui->ctrlComboBoxVIDPID->setEnabled(FALSE);
+    ui->ctrlComboBoxVIDPID->setEnabled(false);
     // Disable IP Address and Socket
-    ui->ctrlEditBoxIPaddress->setEnabled(FALSE);
-    ui->ctrlEditBoxSocketaddress->setEnabled(FALSE);
+    ui->ctrlEditBoxIPaddress->setEnabled(false);
+    ui->ctrlEditBoxSocketaddress->setEnabled(false);
 
 
-//    UpdateData(FALSE);
+//    UpdateData(false);
 }
 
 
@@ -644,23 +644,23 @@ void CPIC32UBLDlg::OnBnClickedCheckComEnable()
 void CPIC32UBLDlg::OnBnClickedCheckUsbEnable()
 {
     // TODO: Add your control notification handler code here
-//    UpdateData(TRUE);
-    ui->ctrlCheckBoxUSBEnable->setChecked(TRUE);
-    ui->ctrlCheckBoxComEnable->setChecked(FALSE);
-    ui->ctrlCheckBoxEthEnable->setChecked(FALSE);
+//    UpdateData(true);
+    ui->ctrlCheckBoxUSBEnable->setChecked(true);
+    ui->ctrlCheckBoxComEnable->setChecked(false);
+    ui->ctrlCheckBoxEthEnable->setChecked(false);
     PortSelected = USB;
 
     // Diasble serial port selection and baud rate selection.
-    ui->ctrlComboBoxBaudRate->setEnabled(FALSE);
-    ui->ctrlComboBoxComPort->setEnabled(FALSE);
+    ui->ctrlComboBoxBaudRate->setEnabled(false);
+    ui->ctrlComboBoxComPort->setEnabled(false);
     // Enable USB VID and PID edit boxes.
-    ui->ctrlComboBoxVIDPID->setEnabled(TRUE);
+    ui->ctrlComboBoxVIDPID->setEnabled(true);
     // Enable IP Address and Socket
-    ui->ctrlEditBoxIPaddress->setEnabled(FALSE);
-    ui->ctrlEditBoxSocketaddress->setEnabled(FALSE);
+    ui->ctrlEditBoxIPaddress->setEnabled(false);
+    ui->ctrlEditBoxSocketaddress->setEnabled(false);
 
 
-//    UpdateData(FALSE);
+//    UpdateData(false);
 }
 
 
@@ -672,22 +672,22 @@ void CPIC32UBLDlg::OnBnClickedCheckUsbEnable()
 void CPIC32UBLDlg::OnBnClickedCheckEthEnable()
 {
     // TODO: Add your control notification handler code here
-//    UpdateData(TRUE);
-    ui->ctrlCheckBoxEthEnable->setChecked(TRUE);
-    ui->ctrlCheckBoxComEnable->setChecked(FALSE);
-    ui->ctrlCheckBoxUSBEnable->setChecked(FALSE);
+//    UpdateData(true);
+    ui->ctrlCheckBoxEthEnable->setChecked(true);
+    ui->ctrlCheckBoxComEnable->setChecked(false);
+    ui->ctrlCheckBoxUSBEnable->setChecked(false);
     PortSelected = ETH;
 
     // Diasble serial port selection and baud rate selection.
-    ui->ctrlComboBoxBaudRate->setEnabled(FALSE);
-    ui->ctrlComboBoxComPort->setEnabled(FALSE);
+    ui->ctrlComboBoxBaudRate->setEnabled(false);
+    ui->ctrlComboBoxComPort->setEnabled(false);
     // Enable USB VID and PID edit boxes.
-    ui->ctrlComboBoxVIDPID->setEnabled(FALSE);
+    ui->ctrlComboBoxVIDPID->setEnabled(false);
     // Enable IP Address and Socket
-    ui->ctrlEditBoxIPaddress->setEnabled(TRUE);
-    ui->ctrlEditBoxSocketaddress->setEnabled(TRUE);
+    ui->ctrlEditBoxIPaddress->setEnabled(true);
+    ui->ctrlEditBoxSocketaddress->setEnabled(true);
 
-//    UpdateData(FALSE);
+//    UpdateData(false);
 }
 
 

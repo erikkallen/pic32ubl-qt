@@ -28,7 +28,7 @@ BOOL CEthernet::OpenUdpPort(USHORT udpSocket, ULONG ip)
     {
 //        MessageBox(NULL, "Socket creation failed!", "Socket Error", MB_ICONERROR|MB_OK);
         QMessageBox::warning(NULL, "Socket Error", "Socket creation failed!", QMessageBox::Ok);
-        return FALSE;
+        return false;
     }
 
     int	recvTmo=10;	// receive tmo, ms
@@ -36,7 +36,7 @@ BOOL CEthernet::OpenUdpPort(USHORT udpSocket, ULONG ip)
     {
 //        MessageBox(NULL, "Failed to set the receive time out!",NULL, MB_ICONERROR|MB_OK);
         QMessageBox::warning(NULL, "Socket Error", "Failed to set the receive time out!", QMessageBox::Ok);
-        return FALSE;
+        return false;
     }
 
     //---------------------------------------------
@@ -46,7 +46,7 @@ BOOL CEthernet::OpenUdpPort(USHORT udpSocket, ULONG ip)
     RecvAddr.sin_addr.s_addr = ip;//inet_addr(ip);
     RecvAddr.sin_port = htons(udpSocket);
 
-    return TRUE;
+    return true;
 
 
 }
@@ -86,10 +86,10 @@ BOOL CEthernet::GetSocketOpenStatus(void)
 {
     if(SendSocket != INVALID_SOCKET)
     {
-        return TRUE;
+        return true;
     }
     else
     {
-        return FALSE;
+        return false;
     }
 }

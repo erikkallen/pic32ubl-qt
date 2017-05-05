@@ -64,14 +64,14 @@ RxTxThread::RxTxThread(CBootLoader *pBootloaderPtr)
  *****************************************************************************/
 void RxTxThread::run()
 {
-    while(bootloaderPtr->ExitThread == FALSE)
+    while(bootloaderPtr->ExitThread == false)
     {
         bootloaderPtr->TransmitTask();
         Sleep(1);
         bootloaderPtr->ReceiveTask();
         Sleep(1);
     }
-    bootloaderPtr->ThreadKilled = TRUE;
+    bootloaderPtr->ThreadKilled = true;
 }
 
 
@@ -90,10 +90,10 @@ void CBootLoader::ShutdownThread( )
    if(BtlThread)
    {
        // Set a flag to exit the thread
-       ExitThread = TRUE;
-       ThreadKilled = FALSE;
+       ExitThread = true;
+       ThreadKilled = false;
        Sleep(1000); // Sleep for 1 second.
-       if(ThreadKilled == FALSE)
+       if(ThreadKilled == false)
        {
            // Thread was not killed. Kill thread by force.
             BtlThread->terminate();
@@ -267,7 +267,7 @@ void CBootLoader::BuildRxFrame(unsigned char *buff, unsigned short buffLen)
                     // Received byte is not SOH, but data.
                     RxData[RxDataLen++] = *buff;
                     // Reset Escape Flag.
-                    Escape = FALSE;
+                    Escape = false;
                 }
                 else
                 {
@@ -282,7 +282,7 @@ void CBootLoader::BuildRxFrame(unsigned char *buff, unsigned short buffLen)
                     // Received byte is not EOT, but data.
                     RxData[RxDataLen++] = *buff;
                     // Reset Escape Flag.
-                    Escape = FALSE;
+                    Escape = false;
                 }
                 else
                 {
@@ -295,7 +295,7 @@ void CBootLoader::BuildRxFrame(unsigned char *buff, unsigned short buffLen)
                         if((CalculateCrc(RxData, (RxDataLen-2)) == crc) && (RxDataLen > 2))
                         {
                             // CRC matches and frame received is valid.
-                            RxFrameValid = TRUE;
+                            RxFrameValid = true;
                         }
                     }
                 }
@@ -308,19 +308,19 @@ void CBootLoader::BuildRxFrame(unsigned char *buff, unsigned short buffLen)
                     // Received byte is not ESC but data.
                     RxData[RxDataLen++] = *buff;
                     // Reset Escape Flag.
-                    Escape = FALSE;
+                    Escape = false;
                 }
                 else
                 {
                     // Received byte is an escape character. Set Escape flag to escape next byte.
-                    Escape = TRUE;
+                    Escape = true;
                 }
                 break;
 
             default: // Data field.
                 RxData[RxDataLen++] = *buff;
                 // Reset Escape Flag.
-                Escape = FALSE;
+                Escape = false;
                 break;
 
         }

@@ -38,7 +38,7 @@ FORMS    += \
 
 unix:!macx: LIBS += -lserial
 
-unix:!macx: LIBS += -lusb
+#unix:!macx: LIBS += -lusb
 
-unix:!macx: LIBS += -lusb-1.0
+unix:!macx: LIBS += -L/lib/x86_64-linux-gnu/ -lusb-1.0
 
